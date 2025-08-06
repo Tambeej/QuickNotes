@@ -16,18 +16,22 @@ export default function Form() {
   };
   return (
     <div className="container">
-      <textarea
-        placeholder="Your note"
-        value={noteText}
-        onChange={(e) => setNoteText(e.target.value)}
-        rows={4}
-      />
-      <br />
-      <button id="addNoteButton" onClick={handleAddNote}>Add</button>
-
+      <div className="text-container">
+        <textarea
+          placeholder="Your note..."
+          value={noteText}
+          onChange={(e) => setNoteText(e.target.value)}
+          rows={8}
+        />
+        <br />
+        <button id="addNoteButton" onClick={handleAddNote}>
+          Add Note
+        </button>
+      </div>
       <div className="notes-grid">
         {notes.map((note, index) => (
           <div className="note-card" key={index}>
+            <small style={{ color: "grey" }}>{note.date}</small>
             <p>{note.text}</p>
           </div>
         ))}
