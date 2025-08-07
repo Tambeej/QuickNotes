@@ -1,9 +1,26 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import Modal from "react-modal";
 
 export default function Form() {
   const [noteText, setNoteText] = useState("");
   const [notes, setNotes] = useState([]);
   const [title, setTitle] = useState("");
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [selectedNote, setSelectedNote] = useState(null);
+
+  function openModal(note) {
+    setSelectedNote(note);
+    setIsOpen(true);
+  }
+
+  function afterOpenModal() {
+    // subtitle.style.color = "#f00";
+    console.log("open");
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
 
   const handleAddNote = () => {
     if (!noteText.trim()) return;
@@ -30,6 +47,26 @@ export default function Form() {
 
   return (
     <div className="container">
+      <Modal
+        isOpen={modalIsOpen}
+        onAfterOpen={afterOpenModal}
+        onRequestClose={closeModal}
+        contentLabel="Note Modal"
+        className="custom-modal-content"
+        overlayClassName="custom-modal-overlay"
+      >
+        {selectedNote && (
+          <div className="note-card" key={selectedNote.date}>
+            <div className="date-and-x">
+              <small>{selectedNote.date}</small>
+              <small onClick={closeModal}>x</small>
+            </div>
+            <h4 className="title-note">{selectedNote.title}</h4>
+            <p className="text-note">{selectedNote.text}</p>
+          </div>
+        )}
+      </Modal>
+
       <div className="text-container">
         <input
           placeholder="Title"
@@ -49,7 +86,11 @@ export default function Form() {
       </div>
       <div className="notes-grid">
         {notes.map((note, index) => (
-          <div className="note-card" key={index}>
+          <div
+            className="note-card"
+            key={index}
+            onClick={() => openModal(note)}
+          >
             <div className="date-and-x">
               <small>{note.date}</small>
               <small
