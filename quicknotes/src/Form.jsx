@@ -3,22 +3,25 @@ import { useState } from "react";
 export default function Form() {
   const [noteText, setNoteText] = useState("");
   const [notes, setNotes] = useState([]);
+  const [title, setTitle] = useState("");
 
   const handleAddNote = () => {
     if (!noteText.trim()) return;
 
     const newNote = {
+      title: title.trim(),
       text: noteText.trim(),
       date: new Date().toLocaleString(),
     };
 
     setNotes([newNote, ...notes]);
     setNoteText("");
+    setTitle("");
   };
 
   const handleDeleteNote = (indexToDelete) => {
     const shouldDelete = window.confirm(
-      "Are you sure you want to delete your note?"
+      "Are you sure you want to delete this note?"
     );
     if (!shouldDelete) return;
     const filteredNotes = notes.filter((_, index) => index !== indexToDelete);
@@ -28,6 +31,11 @@ export default function Form() {
   return (
     <div className="container">
       <div className="text-container">
+        <input
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
         <textarea
           placeholder="Your note..."
           value={noteText}
@@ -51,6 +59,7 @@ export default function Form() {
                 x
               </small>
             </div>
+            <h4 className="title-note">{note.title}</h4>
             <p className="text-note">{note.text}</p>
           </div>
         ))}

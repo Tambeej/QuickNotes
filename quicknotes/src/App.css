@@ -45,7 +45,14 @@ button {
   justify-content: space-between;
 }
 
-.text-note {
+.text-container > input {
+  width: 80%;
+  padding: 10px;
+  margin: 5px auto;
+}
+
+.text-note,
+.title-note {
   text-align: start;
 }
 
