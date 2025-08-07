@@ -3,19 +3,23 @@
   margin: auto;
   padding: 20px;
   font-family: Arial, sans-serif;
-    text-align: center;
+  text-align: center;
+}
 
+.text-container {
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 textarea {
-  width: 100%;
+  width: 80%;
   padding: 10px;
   resize: none;
   font-size: 14px;
 }
 
 button {
-  margin-top: 10px;
+  margin: 10px;
   padding: 8px 16px;
   cursor: pointer;
   width: fit-content;
@@ -34,6 +38,17 @@ button {
   border-radius: 5px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
+
+.date-and-x {
+  color: gray;
+  display: flex;
+  justify-content: space-between;
+}
+
+.text-note {
+  text-align: start;
+}
+
 #addNoteButton {
   display: "block";
   margin: "10px auto";
