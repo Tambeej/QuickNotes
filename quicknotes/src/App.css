@@ -78,3 +78,9 @@ button {
   border-radius: 8px;
   outline: none;
 }
+
+.note-card > .in-modal-transparent {
+  background-color: transparent;
+  border-style: none;
+}
+

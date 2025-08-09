@@ -1,25 +1,22 @@
-import React, { useState } from "react";
-import Modal from "react-modal";
+import { useState } from "react";
+
+import NoteModal from "./NoteModal";
 
 export default function Form() {
-  const [noteText, setNoteText] = useState("");
-  const [notes, setNotes] = useState([]);
-  const [title, setTitle] = useState("");
   const [modalIsOpen, setIsOpen] = useState(false);
   const [selectedNote, setSelectedNote] = useState(null);
 
-  function openModal(note) {
+  const [noteText, setNoteText] = useState("");
+  const [notes, setNotes] = useState([]);
+  const [title, setTitle] = useState("");
+  const [editingIndex, setEditingIndex] = useState(null);
+
+  function openModal(note, index) {
     setSelectedNote(note);
+    setEditingIndex(index);
+    setTitle(note.title);
+    setNoteText(note.text);
     setIsOpen(true);
-  }
-
-  function afterOpenModal() {
-    // subtitle.style.color = "#f00";
-    console.log("open");
-  }
-
-  function closeModal() {
-    setIsOpen(false);
   }
 
   const handleAddNote = () => {
@@ -45,28 +42,27 @@ export default function Form() {
     setNotes(filteredNotes);
   };
 
+  const closeModal = () => {
+    setIsOpen(false);
+    setEditingIndex(null);
+    setTitle("");
+    setNoteText("");
+  };
+
   return (
     <div className="container">
-      <Modal
+      <NoteModal
         isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
-        contentLabel="Note Modal"
-        className="custom-modal-content"
-        overlayClassName="custom-modal-overlay"
-      >
-        {selectedNote && (
-          <div className="note-card" key={selectedNote.date}>
-            <div className="date-and-x">
-              <small>{selectedNote.date}</small>
-              <small onClick={closeModal}>x</small>
-            </div>
-            <h4 className="title-note">{selectedNote.title}</h4>
-            <p className="text-note">{selectedNote.text}</p>
-          </div>
-        )}
-      </Modal>
-
+        onClose={closeModal}
+        note={selectedNote}
+        noteText={noteText}
+        setNoteText={setNoteText}
+        title={title}
+        setTitle={setTitle}
+        editingIndex={editingIndex}
+        setNotes={setNotes}
+        notes={notes}
+      />
       <div className="text-container">
         <input
           placeholder="Title"
@@ -89,10 +85,10 @@ export default function Form() {
           <div
             className="note-card"
             key={index}
-            onClick={() => openModal(note)}
+            onClick={() => openModal(note, index)}
           >
             <div className="date-and-x">
-              <small>{note.date}</small>
+              <small className="note-date">{note.date}</small>
               <small
                 onClick={() => handleDeleteNote(index)}
                 style={{ cursor: "pointer" }}
